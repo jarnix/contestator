@@ -12,7 +12,8 @@ schema:
       status: true
     install:
       status: false
-    run: true
+    run:
+      status: true
   watcher:
     extensions:
     - go

@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/dghubble/go-twitter/twitter"
+	"github.com/ChimeraCoder/anaconda"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
@@ -29,5 +29,9 @@ func main() {
 
 	dbHost := os.Getenv("DB_HOST")
 	fmt.Println(dbHost)
+
+	api := anaconda.NewTwitterApiWithCredentials(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
+
+	fmt.Println(api)
 
 }
