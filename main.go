@@ -2,9 +2,13 @@ package main
 
 import (
 	_ "database/sql"
+	"fmt"
+	"log"
+	"os"
 
 	_ "github.com/dghubble/go-twitter/twitter"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 // aller chercher 4 tweets via search avec #concours, rt, retweet, follow (...)
@@ -16,3 +20,14 @@ import (
 // poster des trucs en allant chercher les news ailleurs pour faire genre le compte est normal
 // poster des status à la con
 // retweeter des célébrités du milieu
+
+func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	dbHost := os.Getenv("DB_HOST")
+	fmt.Println(dbHost)
+
+}

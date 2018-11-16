@@ -1,0 +1,25 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: contestator
+  path: .
+  commands: 
+    fmt:
+      status: true
+    build:
+      status: true
+    install:
+      status: false
+    run: true
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    ignore:
+      paths:
+      - .git
+      - .realize
+      - vendor
