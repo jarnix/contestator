@@ -1,4 +1,6 @@
 .env
 contestator.exe
 contestator
+main.exe
+test.exe
 .gitsecret/keys/random_seed
