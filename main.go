@@ -4,6 +4,7 @@ import (
 	_ "database/sql"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/ChimeraCoder/anaconda"
@@ -14,7 +15,8 @@ import (
 // aller chercher 4 tweets via search avec #concours, rt, retweet, follow (...)
 // voir dans le tweet les comptes à suivre, s'il y a des indications particulières
 // stocker les comptes followés dans la base pour les défollower 1 mois après
-// attendre au moins 6 heures entre chaque action, les faire en journée uniquement (à heure régulière)
+// attendre au moins 2/3 heures entre chaque lancement et 1/2 minutes entre chaque action
+// les faire en journée uniquement (à heure régulière)
 
 // anti anti bot
 // poster des trucs en allant chercher les news ailleurs pour faire genre le compte est normal
@@ -32,6 +34,11 @@ func main() {
 
 	api := anaconda.NewTwitterApiWithCredentials(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
 
-	fmt.Println(api)
+	v := url.Values{}
+	v.Set("count", "30")
 
+	searchResult, _ := api.GetSearch("#concours", v)
+	for _, tweet := range searchResult.Statuses {
+		fmt.Println(tweet.Text)
+	}
 }
