@@ -1,0 +1,37 @@
+Nous sommes au milieu des années ’90. John Carmack développe toujours des moteurs graphiques incroyables et John Romero n’a pas encore la réputation de clown qu’il possède aujourd’hui. Tous deux travaillent pour id Software, le studio qui a quasiment créé le FPS à lui tout seul et l’une de ses variantes, le fast-FPS. Plus rapide, grisant et exigeant, ce genre est incarné par la série Quake et notamment, Quake 3 Arena. Aujourd’hui, plus aucun de ces deux héros du jeu vidéo ne traine dans les couloirs du studio texan, mais cela ne l’aura pas empêché de rendre un fier hommage à cette grande époque.
+
+L’idée derrière Quake Champions est simple, il s’agit de moderniser la formule du fast-FPS. Ainsi, le moteur graphique utilisé est flambant neuf, mais c’est également le gameplay qui a été revu. On pourrait craindre que le subtil équilibre propre aux jeux du genre ne soit brisé par des changements trop radicaux, mais id Software est parvenu à se mesurer. Le cœur du gameplay n’a donc pas été chamboulé, mais accueille tout de même des héros, composante essentielle des shooters modernes. Nous avons ainsi le classique Ranger qui se retrouve doté d’un pouvoir lui permettant de se téléporter, tandis que Galena possède un totem de soin. Dans un genre plus offensif, nous retrouvons Scalebearer et son dash redoutable, mais risqué, ou encore le Death Knight capable de lancer des flammes. Le studio américain rend également hommage à ses autres licences avec B.J. Blazkowicz et le Doom Guy. Il existe ainsi 14 personnages possédant chacun une capacité unique et l’équipe en ajoutera davantage au fur et à mesure du développement. Il s’agit d’une Early Access, ne l’oublions pas.
+
+Venons-en maintenant au cœur du gameplay, ce qui a toujours fait le sel de franchise : les sensations de shoot. Ici pas d’aventure solo, Quake Champions se joue en ligne face à d’autres joueurs ou éventuellement contre des ordinateurs. Dès les premiers pas, les sensations sont là. On se déplace de manière rapide et fluide, les petits sauts ne ralentissent pas la course, les rampes de saut sont bien ajustées… Bref, côté déplacements tout va bien. Au niveau des armes, le constat est le même. Avec ses sept pétoires bien équilibrées, le jeu offre des sensations particulièrement jouissives. Nous commençons évidemment les rounds avec la mitrailleuse, mais le lance-roquette (permettant toujours le rocket jump), le rail gun, le lightning gun et tous leurs copains sont dispersés sur la carte. L'ensemble est diablement précis et efficace pour des impacts qui se ressentent bien. Les adorateurs de Quake 3 Arena sont donc servis et seront certainement heureux de découvrir les possibilités de combos offertes par l’ajout des pouvoirs.
+
+Abordons rapidement la progression. Quake Champions étant désormais free-to-play, vous ne pourrez incarner que deux personnages dans un premier temps : Ranger et Scalebearer. S’il est possible de débloquer les autres héros en jouant, vous pouvez également acheter le "Champions Pack Upgrade" qui les rendra tous disponibles en échange de 39,99 euros. À la manière d’un season pass, l’ensemble des futurs ajouts font partie de cette formule.
+
+Pour les personnes qui n’ont jamais touché à un fast-FPS de leur vie, sachez que l’objectif est généralement d’atteindre un certain nombre de points en premier ou d’obtenir le meilleur score en un temps défini. Ainsi, nous retrouvons comme première option le mode Deathmatch, en équipe, ou chacun pour soi. Un grand classique qui procure toujours autant de plaisir, malgré son concept simple. Un coup de rail gun bien placé, une jolie roquette sur un ennemi en plein vol, mais aussi quelques morts sacrément frustrantes, c’est du Quake pur et dur que nous propose ici id Software. Soyez par ailleurs prévenus, certains joueurs ont déjà bien pris la main et il n’est pas rare qu’un seul adversaire domine les débats durant toute la partie. Préparez-vous donc bien avant de vous lancer en partie classée, car il y a du gros niveau. Autre nouveauté intéressante, les développeurs nous proposent le mode Arcade qui offre différentes règles particulières, comme des parties durant lesquelles les armes se débloquent au fil du temps.
+
+Mais Quake, c’est aussi une affaire de cartes. Une dizaine de maps plutôt réussies sont disponibles pour le moment. Elles proposent un jeu vertical à souhait et des ambiances plutôt variées, mais toujours dans les tons sombres typiques de la série. Pas de souci du côté de l’équilibrage, les quad damages (bonus permettant de quadrupler les dégâts infligés) et autres power-ups sont placés de manière à rassembler tout le monde au centre de l’arène et les armes sont bien réparties. Espérons cependant qu’id Software s’amusera à varier les plaisirs avec des cartes peut-être plus ouvertes à l’image de la très appréciée The Longest Yard de Quake 3 Arena.
+
+Qui dit jeu moderne, dit également lootboxes. Ce n’est un secret pour personne, ces petites boîtes contenant des éléments cosmétiques sont très rentables. Le titre propose ainsi de les débloquer en utilisant une monnaie gagnée à force de jouer ou en dépensant quelques euros dans la boutique dédiée. Par ce biais, il n’est évidemment possible de débloquer que des objets visuels, l’ensemble des armes étant disponible pour tous les joueurs. Pas pay-to-win et loin de pousser à l’achat, c’est le genre de free-to-play que l’on aimerait voir plus souvent.
+
+Terminons enfin sur la bande-son. Si Trent Reznor n’est cette fois-ci pas aux platines, nous noterons l’envie de rendre hommage au style qu’il a instauré lors de sa collaboration sur le premier Quake. L’ensemble sonne donc très rock industriel et colle bien avec l’ambiance du jeu. Toujours côté auditif, il est important de signaler l’excellent travail effectué au niveau de la spatialisation du son. Avec un bon casque, il est tout à fait possible de localiser les ennemis en se concentrant un peu et c’est un vrai avantage une fois en jeu.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sans conteste, Quake Champions rend un fier hommage à ses illustres prédécesseurs grâce à un gameplay respectueux de ses origines, mais légèrement modernisé. Nous y retrouvons ainsi la rapidité et toute la nervosité attendue pour des parties funs et exigeantes. Quel plaisir de retrouver ces sensations ! Si elles étaient craintes par une partie de la communauté, les nouveautés comme les héros ou le système de personnalisation sont finalement très réussies, tout comme les différentes cartes proposées. En l’état, il n’y a que peu de choses à reprocher à ce free-to-play et nous avons hâte de voir les contenus qu’apporteront les développeurs au fil des mois (dont le fameux mode capture-the-flag). Amateurs de fast-FPS, foncez !
+
+
+
+
