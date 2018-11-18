@@ -46,7 +46,8 @@ func main() {
 	todo := flag.String("todo", "", "todo")
 	flag.Parse()
 	log.SetPrefix(*todo + " ")
-	if *todo == "downloadforindex" {
+	switch *todo {
+	case "downloadforindex":
 		markov.DownloadForIndex(1)
 	}
 
