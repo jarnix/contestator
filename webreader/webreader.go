@@ -26,14 +26,11 @@ func GetWebPage(url string) string {
 		log.Fatal(err)
 	}
 
-	// Read everything from Body.
+	// Read everything from body
 	body, err := ioutil.ReadAll(resp.Body)
-
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Convert body bytes to string.
 	bodyText := string(body)
 
 	resp.Body.Close()

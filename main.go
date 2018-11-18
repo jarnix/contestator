@@ -3,6 +3,7 @@ package main
 import (
 	_ "database/sql"
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/jarnix/contestator/markov"
@@ -43,12 +44,16 @@ func main() {
 		}
 	*/
 
-	todo := flag.String("todo", "", "todo")
+	todo := flag.String("todo", "", "action to launch (downloadforindex, ...)")
 	flag.Parse()
 	log.SetPrefix(*todo + " ")
 	switch *todo {
 	case "downloadforindex":
 		markov.DownloadForIndex(1)
+	case "markovgenerate":
+		fmt.Println(markov.GenerateText(markov.DataFolder, 2, 2, 20))
+	case "":
+		flag.PrintDefaults()
 	}
 
 	/*

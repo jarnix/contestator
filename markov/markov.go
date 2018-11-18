@@ -1,217 +1,208 @@
 package markov
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"math/rand"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
+	"time"
+	"unicode"
+	"unicode/utf8"
 )
 
-// SubDictionary of follow up words and the cordict3ponding factor.
-type SubDictionary map[string]int
+// GenerateText returns a text generated from a folder with text files
+func GenerateText(folder string, nbPrefix int, nbRuns int, nbWordsPerRun int) string {
+	startOnCapital := true
+	stopAtSentence := true
 
-// Dictionary of start words with follow ups and the cordict3ponding factor.
-type Dictionary map[string]SubDictionary
+	rand.Seed(time.Now().UnixNano())
 
-// FitnessFunc signature that is allowed to be passed
-type FitnessFunc func(Dictionary, []string) int
+	// contains all the folders to parse
+	var allTextFilesInsideRoot []string
 
-// Train from string of words
-func Train(text string, factor int) Dictionary {
-	dict := make(Dictionary)
-
-	words := strings.Fields(text)
-
-	words = cleanUpStrings(words)
-
-	for i := 0; i < len(words)-1; i++ {
-		if _, prefixAvail := dict[words[i]]; !prefixAvail {
-			dict[words[i]] = make(SubDictionary)
-		}
-		if _, suffixAvail := dict[words[i]][words[i+1]]; !suffixAvail {
-			dict[words[i]][words[i+1]] = factor
-		} else {
-			dict[words[i]][words[i+1]] = dict[words[i]][words[i+1]] + dict[words[i]][words[i+1]]*factor
-		}
-	}
-	return dict
-}
-
-// TrainFromFile takes a file path, reads the file and passes the string to Train
-func TrainFromFile(path string, factor int) Dictionary {
-	buf, _ := ioutil.ReadFile(path)
-	return Train(string(buf), factor)
-}
-
-// TrainFromFolder takes a path, and passes every text file it finds to TrainFromFile
-func TrainFromFolder(path string, factor int) Dictionary {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	// recursively read the folder and concatenate the .txt files
+	err := filepath.Walk(folder,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if strings.HasSuffix(path, ".txt") {
+				allTextFilesInsideRoot = append(allTextFilesInsideRoot, path)
+			}
+			return nil
+		})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	files, err := ioutil.ReadDir(dir + string(os.PathSeparator) + path)
+	buf := bytes.NewBuffer(nil)
+	for _, file := range allTextFilesInsideRoot {
+		fmt.Println(file)
+		f, _ := os.Open(file) // Error handling elided for brevity.
+		io.Copy(buf, f)       // Error handling elided for brevity.
+		f.Close()
+	}
+	allTextFilesContent := string(buf.Bytes())
+
+	m, err := NewMarkovFromString(allTextFilesContent, nbPrefix)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	dict := make(Dictionary)
+	var outString string
+	outBuffer := bytes.NewBufferString(outString)
 
-	for _, file := range files {
-		match, _ := regexp.MatchString(".*\\.txt$", file.Name())
-		if match {
-			fmt.Println(file.Name())
-			fmt.Println(dir + string(os.PathSeparator) + path + string(os.PathSeparator) + file.Name())
-			tmp := TrainFromFile(path+string(os.PathSeparator)+file.Name(), factor)
-			dict = mergeDict(dict, tmp)
-		}
-	}
-
-	return dict
-}
-
-// Generate takes a dictionary, a maximum length and a startword to generate a text based on the inputs
-func Generate(dict Dictionary, maxLength int, startWord string) string {
-	var word = ""
-	if startWord == "" {
-		word = pickRandom(dict.keys())
-	} else {
-		word = startWord
-	}
-
-	sentence := strings.Title(word)
-	i := 0
-	for maxLength == 0 || i < maxLength-1 {
-		i++
-
-		tmp := word
-
-		for val := range dict[word] {
-			if _, undefined := dict[word][val]; undefined {
-				word = pickRandom(dict[word].keys())
-			}
-		}
-		if word == tmp || word == "" {
-			return sentence
-		}
-		tmp = word
-		sentence = sentence + " " + word
-	}
-	return sentence
-}
-
-// AdjustFactors takes a dictionary and applies the fitness func on the dictionary
-func AdjustFactors(dict Dictionary, maxLength int, f FitnessFunc) Dictionary {
-	extract := strings.Fields(Generate(dict, maxLength, ""))
-
-	var pairs [][]string
-	i := 0
-	for i < len(extract)-1 {
-		if i >= len(extract) {
-			i++
-			continue
-		}
-		pairs = append(pairs, []string{extract[i], extract[i+1]})
-		i++
-	}
-	i = 0
-	for p := range pairs {
-		fact := int((float64(f(dict, pairs[p])) - 0.5) * 2.0)
-		dict = mergeDict(Train(pairs[p][0]+" "+pairs[p][1], fact), dict)
-	}
-	return dict
-}
-
-// BulkAdjustFactors takes a dictionary and runs the number of specified iterations applying the fitness function
-func BulkAdjustFactors(dict Dictionary, iterations int, f []FitnessFunc) Dictionary {
-	if len(f) < 1 {
-		return dict
-	}
-	i := 0
-	for i < iterations {
-		i++
-		j := 0
-		for j < len(f) {
-			dict = AdjustFactors(dict, 10, f[j])
-			j++
-		}
-	}
-
-	return dict
-}
-
-// FitnessFunction apply fitness to dictionary
-func FitnessFunction(dict Dictionary, pair []string) int {
-	if pair[1] == "" {
-		return -1
-	}
-	if _, undefined := dict[pair[0]]; !undefined {
-		return -1
-	}
-	return dict[pair[0]][pair[1]]
-}
-
-// mergeDict, given two dictionaries merges them into one
-func mergeDict(dict1, dict2 Dictionary) Dictionary {
-	dict3 := dict1
-	for val := range dict2 {
-		if _, undefined := dict3[val]; !undefined {
-			dict3[val] = dict2[val]
-		} else {
-			for sval := range dict2[val] {
-				if _, undefined := dict3[val][sval]; !undefined {
-					dict3[val] = make(SubDictionary)
-					dict3[val][sval] = dict2[val][sval]
-				} else {
-					dict3[val] = make(SubDictionary)
-					dict3[val][sval] = dict3[val][sval] + dict2[val][sval]
-				}
-			}
-		}
-	}
-	return dict3
-}
-
-func (m Dictionary) keys() []string {
-	keys := make([]string, len(m))
-	i := 0
-	for val := range m {
-		keys[i] = val
-		i++
-	}
-	return keys
-}
-
-func (m SubDictionary) keys() []string {
-	keys := make([]string, len(m))
-	i := 0
-	for val := range m {
-		keys[i] = val
-		i++
-	}
-	return keys
-}
-
-// pickRandom takes a dictionary and selects a random key
-func pickRandom(keys []string) string {
-	return keys[rand.Intn(len(keys))]
-}
-
-func cleanUpStrings(words []string) []string {
-	for val := range words {
-		// remove all non-alphanumeric characters from input
-		reg, err := regexp.Compile("[^\\s\\w]")
+	for i := 0; i < nbRuns; i++ {
+		err = m.Output(outBuffer, nbWordsPerRun, startOnCapital, stopAtSentence)
 		if err != nil {
 			log.Fatal(err)
 		}
-		words[val] = reg.ReplaceAllString(words[val], "")
-
-		// everything lowercase
-		words[val] = strings.ToLower(words[val])
+		fmt.Println()
 	}
-	return words
+	return outBuffer.String()
+}
+
+// We'd like to use a map of []string -> []string (i.e. list of prefix
+// words -> list of possible next words) but Go doesn't allow slices to be
+// map keys.
+//
+// We could use arrays, e.g. map of [2]string -> []string, but array lengths
+// are fixed at compile time. To work around that we could set a maximum value
+// for n, say 8 or 16, and waste the extra array slots for smaller n.
+//
+// Or we could make the suffix map key just be the full prefix string. Then
+// to get the words within the prefix we could either have a separate map
+// (i.e. map of string -> []string) for the full prefix string -> the list
+// of the prefix words. Or we could use strings.Fields() and strings.Join() to
+// go back and forth (trading more runtime for less memory use).
+
+// Markov is a Markov chain text generator.
+type Markov struct {
+	n           int
+	capitalized int // number of suffix keys that start capitalized
+	suffix      map[string][]string
+}
+
+// NewMarkovFromString initializes the Markov text generator
+// with window `n` from the contents of a string s.
+func NewMarkovFromString(s string, n int) (*Markov, error) {
+	m := &Markov{
+		n:      n,
+		suffix: make(map[string][]string),
+	}
+
+	var r = bytes.NewBufferString(s)
+
+	sc := bufio.NewScanner(r)
+	sc.Split(bufio.ScanWords)
+	window := make([]string, 0, n)
+	for sc.Scan() {
+		word := sc.Text()
+		if len(window) > 0 {
+			prefix := strings.Join(window, " ")
+			m.suffix[prefix] = append(m.suffix[prefix], word)
+			//log.Printf("%20q -> %q", prefix, m.suffix[prefix])
+			if isCapitalized(prefix) {
+				m.capitalized++
+			}
+		}
+		window = appendMax(n, window, word)
+	}
+	if err := sc.Err(); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// Output writes generated text of approximately `n` words to `w`.
+// If `startCapital` is true it picks a starting prefix that is capitalized.
+// If `stopSentence` is true it continues after `n` words until it finds
+// a suffix ending with sentence ending punctuation ('.', '?', or '!').
+func (m *Markov) Output(w io.Writer, n int, startCapital, stopSentence bool) error {
+	// Use a bufio.Writer both for buffering and for simplified
+	// error handling (it remembers any error and turns all future
+	// writes/flushes into NOPs returning the same error).
+	bw := bufio.NewWriter(w)
+
+	var i int
+	if startCapital {
+		i = rand.Intn(m.capitalized)
+	} else {
+		i = rand.Intn(len(m.suffix))
+	}
+	var prefix string
+	for prefix = range m.suffix {
+		if startCapital && !isCapitalized(prefix) {
+			continue
+		}
+		if i == 0 {
+			break
+		}
+		i--
+	}
+
+	bw.WriteString(prefix) // nolint: errcheck
+	prefixWords := strings.Fields(prefix)
+	n -= len(prefixWords)
+
+	for {
+		suffixChoices := m.suffix[prefix]
+		if len(suffixChoices) == 0 {
+			break
+		}
+		i = rand.Intn(len(suffixChoices))
+		suffix := suffixChoices[i]
+		//log.Printf("prefix: %q, suffix: %q (from %q)", prefixWords, suffix, suffixChoices)
+		bw.WriteByte(' ') // nolint: errcheck
+		if _, err := bw.WriteString(suffix); err != nil {
+			break
+		}
+		n--
+		if n < 0 && (!stopSentence || isSentenceEnd(suffix)) {
+			break
+		}
+
+		prefixWords = appendMax(m.n, prefixWords, suffix)
+		prefix = strings.Join(prefixWords, " ")
+	}
+	return bw.Flush()
+}
+
+func isCapitalized(s string) bool {
+	// We can't just look at s[0], which is the first *byte*,
+	// if we want to support arbitrary Unicode input.
+	// This still doesn't support combining runes :(.
+	r, _ := utf8.DecodeRuneInString(s)
+	return unicode.IsUpper(r)
+}
+
+func isSentenceEnd(s string) bool {
+	r, _ := utf8.DecodeLastRuneInString(s)
+	// Unfortunately, Unicode doesn't seem to provide
+	// a test for sentence ending punctution :(.
+	//return unicode.IsPunct(r)
+	return r == '.' || r == '?' || r == '!'
+}
+
+func appendMax(max int, slice []string, value string) []string {
+	// Often FIFO queues in Go are implemented via:
+	//     fifo = append(fifo, newValues...)
+	// and:
+	//     fifo = fifo[numberOfValuesToRemove:]
+	//
+	// However, the append will periodically reallocate and copy. Since
+	// we're dealing with a small number (usually two) of strings and we
+	// only need to append a single new string it's better to (almost)
+	// never reallocate the slice and just copy n-1 strings (which only
+	// copies n-1 pointers, not the entire string contents) every time.
+	if len(slice)+1 > max {
+		n := copy(slice, slice[1:])
+		slice = slice[:n]
+	}
+	return append(slice, value)
 }
