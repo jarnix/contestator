@@ -4,4 +4,7 @@ contestator
 main.exe
 test.exe
 .gitsecret/keys/random_seed
-data/
+
+# exclude everything but /data folder
+/data/*
+!/data/.gitkeep
