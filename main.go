@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/jarnix/contestator/markov"
+	"github.com/kyokomi/emoji"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -19,9 +20,13 @@ import (
 // les faire en journée uniquement (à heure régulière)
 
 // anti anti bot
-// poster des trucs en allant chercher les news ailleurs pour faire genre le compte est normal
-// poster des status à la con
+
+// poster des status à la con via markov préfixés par "#jvsousLSD"
+// traduire /r/showerthoughts via google translate api
+// retweeter des comptes auxquels je suis abonné
 // retweeter des célébrités du milieu
+// tweeter des emojis en messages codés avec des emojis aléatoires
+// retweeter des conneries depuis ce site http://twog.fr/
 
 func main() {
 
@@ -51,7 +56,9 @@ func main() {
 	case "downloadforindex":
 		markov.DownloadForIndex(1)
 	case "markovgenerate":
-		fmt.Println(markov.GenerateText(markov.DataFolder, 2, 2, 20))
+		stupidText := markov.GenerateText(markov.DataFolder, 2, 2, 20)
+		stupidText += emoji.Sprint(":+1: :beer: :burrito: :computer: :cookie: :cool: :dollar: :duck: :game_die: :ghost: :kiss: :lollipop: :mask: :poop: :potato: :roll_eyes: :eggplant:")
+		fmt.Println(stupidText)
 	case "":
 		flag.PrintDefaults()
 	}

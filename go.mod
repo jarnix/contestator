@@ -20,7 +20,7 @@ require (
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/jaytaylor/html2text v0.0.0-20180606194806-57d518f124b0 // indirect
 	github.com/joho/godotenv v1.3.0
-	github.com/kyokomi/emoji v1.5.1 // indirect
+	github.com/kyokomi/emoji v1.5.1
 	github.com/labstack/echo v3.3.5+incompatible // indirect
 	github.com/labstack/gommon v0.2.8 // indirect
 	github.com/mattn/go-colorable v0.0.9 // indirect
