@@ -3,7 +3,6 @@ package markov
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"log"
 	"math/rand"
@@ -42,7 +41,6 @@ func GenerateText(folder string, nbPrefix int, nbRuns int, nbWordsPerRun int) st
 
 	buf := bytes.NewBuffer(nil)
 	for _, file := range allTextFilesInsideRoot {
-		fmt.Println(file)
 		f, _ := os.Open(file) // Error handling elided for brevity.
 		io.Copy(buf, f)       // Error handling elided for brevity.
 		f.Close()
@@ -62,9 +60,8 @@ func GenerateText(folder string, nbPrefix int, nbRuns int, nbWordsPerRun int) st
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println()
 	}
-	return outBuffer.String()
+	return outBuffer.String() + " " + os.Getenv("HASHTAGS_MARKOV")
 }
 
 // We'd like to use a map of []string -> []string (i.e. list of prefix

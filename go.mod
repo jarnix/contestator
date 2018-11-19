@@ -7,6 +7,9 @@ require (
 	github.com/advancedlogic/GoOse v0.0.0-20180825110909-6cd46faf50eb
 	github.com/araddon/dateparse v0.0.0-20181020190151-00e168d34895 // indirect
 	github.com/azr/backoff v0.0.0-20160115115103-53511d3c7330 // indirect
+	github.com/cenkalti/backoff v2.0.0+incompatible // indirect
+	github.com/dghubble/go-twitter v0.0.0-20181118100457-22773114c241
+	github.com/dghubble/sling v1.2.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/dustin/go-jsonpointer v0.0.0-20160814072949-ba0abeacc3dc // indirect
 	github.com/dustin/gojson v0.0.0-20160307161227-2e71ec9dd5ad // indirect
@@ -18,6 +21,7 @@ require (
 	github.com/go-siris/siris v7.4.0+incompatible // indirect
 
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/jaytaylor/html2text v0.0.0-20180606194806-57d518f124b0 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/kyokomi/emoji v1.5.1

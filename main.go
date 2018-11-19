@@ -3,11 +3,12 @@ package main
 import (
 	_ "database/sql"
 	"flag"
-	"fmt"
 	"log"
+	"os"
 
+	"github.com/jarnix/contestator/emoji"
 	"github.com/jarnix/contestator/markov"
-	"github.com/kyokomi/emoji"
+	"github.com/jarnix/contestator/twitter"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -21,11 +22,11 @@ import (
 
 // anti anti bot
 
-// poster des status à la con via markov préfixés par "#jvsousLSD"
+// ## poster des status à la con via markov préfixés par "#gamingsousLSD"
 // traduire /r/showerthoughts via google translate api
 // retweeter des comptes auxquels je suis abonné
 // retweeter des célébrités du milieu
-// tweeter des emojis en messages codés avec des emojis aléatoires
+// ## tweeter des emojis en messages codés avec des emojis aléatoires
 // retweeter des conneries depuis ce site http://twog.fr/
 
 func main() {
@@ -49,22 +50,25 @@ func main() {
 		}
 	*/
 
+	twitterClient := twitter.NewClient(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
+
 	todo := flag.String("todo", "", "action to launch (downloadforindex, ...)")
 	flag.Parse()
 	log.SetPrefix(*todo + " ")
 	switch *todo {
 	case "downloadforindex":
 		markov.DownloadForIndex(1)
-	case "markovgenerate":
-		stupidText := markov.GenerateText(markov.DataFolder, 2, 2, 20)
-		stupidText += emoji.Sprint(":+1: :beer: :burrito: :computer: :cookie: :cool: :dollar: :duck: :game_die: :ghost: :kiss: :lollipop: :mask: :poop: :potato: :roll_eyes: :eggplant:")
-		fmt.Println(stupidText)
+	case "tweetmarkov":
+		stupidText := markov.GenerateText(markov.DataFolder, 2, 1, 10)
+		twitterClient.TweetSomething(stupidText)
+	case "tweetemojis":
+		stupidText := emoji.GenerateText()
+		twitterClient.TweetSomething(stupidText)
 	case "":
 		flag.PrintDefaults()
 	}
 
 	/*
-		twitterClient := twitter.NewClient(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
 		twitterClient.SearchTweets("#concours")
 	*/
 

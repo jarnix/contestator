@@ -3,7 +3,6 @@ package markov
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -46,7 +45,6 @@ func DownloadForIndex(idx int) {
 	pageNumber := 5
 	for pageNumber >= 2 {
 		indexURL := strings.Replace(indexURLBase, "##page##", strconv.Itoa(pageNumber), 1)
-		fmt.Println("indexURL", indexURL)
 		webpageWithLinks := webreader.GetWebPage(indexURL)
 		baseURL := webreader.GetBaseURL(os.Getenv("URL_BASE_CRAWL_" + strconv.Itoa(idx)))
 
@@ -56,7 +54,7 @@ func DownloadForIndex(idx int) {
 
 			hasher := md5.New()
 			hasher.Write([]byte(link.Href))
-			filepath := DataFolder + strconv.Itoa(idx) + "-" + hex.EncodeToString(hasher.Sum(nil)) + ".txt"
+			filepath := DataFolder + "/" + strconv.Itoa(idx) + "/" + hex.EncodeToString(hasher.Sum(nil)) + ".txt"
 			if _, err := os.Stat(filepath); os.IsNotExist(err) {
 				f, err := os.OpenFile(filepath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
 				if err != nil {
