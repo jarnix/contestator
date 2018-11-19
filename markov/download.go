@@ -15,12 +15,12 @@ import (
 )
 
 // DataFolder is the root folder containing .txt files for generating text
-const DataFolder = "data"
+const DataFolder = "data/markov"
 const filesToKeep = 30
 
-// DownloadForIndex downloads some text of an article for generating markov chains
-func DownloadForIndex(idx int) {
-	indexURLBase := os.Getenv("URL_INDEX_MARKOV_" + strconv.Itoa(idx))
+// DownloadForMarkov downloads some text of an article for generating markov chains
+func DownloadForMarkov(idx int) {
+	indexURLBase := os.Getenv("URL_MARKOV_INDEX_" + strconv.Itoa(idx))
 
 	// get the number of files for this idx and keep only the most toKeep recent ones
 	files, err := ioutil.ReadDir(DataFolder + "/" + strconv.Itoa(idx))
@@ -46,9 +46,8 @@ func DownloadForIndex(idx int) {
 	for pageNumber >= 2 {
 		indexURL := strings.Replace(indexURLBase, "##page##", strconv.Itoa(pageNumber), 1)
 		webpageWithLinks := webreader.GetWebPage(indexURL)
-		baseURL := webreader.GetBaseURL(os.Getenv("URL_BASE_CRAWL_" + strconv.Itoa(idx)))
 
-		links := webreader.GetLinksFromQuery(webpageWithLinks, os.Getenv("URL_QUERY_CRAWL_"+strconv.Itoa(idx)), baseURL)
+		links := webreader.GetLinksFromQuery(webpageWithLinks, os.Getenv("URL_MARKOV_QUERY_CRAWL_"+strconv.Itoa(idx)), indexURL)
 
 		for _, link := range links {
 

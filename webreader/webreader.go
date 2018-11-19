@@ -67,12 +67,21 @@ func GetLinksFromQuery(body string, query string, baseURL string) []Link {
 				links,
 				Link{
 					Title: title,
-					Href:  baseURL + href,
+					Href:  makeAbsoluteHref(baseURL, href),
 				})
 		}
 	})
 
 	return links
+}
+
+// makeAbsoluteHref returns an url prefixed by the baseURL if http is not present in the given href
+func makeAbsoluteHref(baseURL string, href string) string {
+	if strings.HasPrefix(href, "http") {
+		return href
+	} else {
+		return baseURL + href
+	}
 }
 
 // GetTextFromQuery returns the (first) compatible text for a goquery within body
@@ -90,7 +99,6 @@ func GetTextFromQuery(body string, query string) string {
 	})
 
 	return textFromQuery
-
 }
 
 // GetArticleContentAndImage returns the main features of an article

@@ -8,6 +8,7 @@ import (
 
 	"github.com/jarnix/contestator/emoji"
 	"github.com/jarnix/contestator/markov"
+	"github.com/jarnix/contestator/retweet"
 	"github.com/jarnix/contestator/twitter"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -57,7 +58,12 @@ func main() {
 	log.SetPrefix(*todo + " ")
 	switch *todo {
 	case "downloadforindex":
-		markov.DownloadForIndex(1)
+		markov.DownloadForMarkov(1)
+	case "downloadforretweet":
+		retweet.DownloadForRetweet(1)
+	case "tweetretweet":
+		// randomtweetID := retweet.GetRandomTweet()
+		// twitterClient.Retweet(tweetID)
 	case "tweetmarkov":
 		stupidText := markov.GenerateText(markov.DataFolder, 2, 1, 10)
 		twitterClient.TweetSomething(stupidText)
