@@ -1,6 +1,7 @@
 module github.com/jarnix/contestator
 
 require (
+	cloud.google.com/go v0.33.1 // indirect
 	github.com/ChimeraCoder/anaconda v2.0.0+incompatible
 	github.com/ChimeraCoder/tokenbucket v0.0.0-20131201223612-c5a927568de7 // indirect
 	github.com/PuerkitoBio/goquery v1.5.0
@@ -40,9 +41,11 @@ require (
 	github.com/tehcyx/gomarkov v0.0.0-20180717000643-0947f59cbbea
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
+	go.opencensus.io v0.18.0 // indirect
 	golang.org/x/net v0.0.0-20181114220301-adae6a3d119a
-	golang.org/x/text v0.3.0 // indirect
+	golang.org/x/oauth2 v0.0.0-20181120190819-8f65e3013eba // indirect
+	google.golang.org/api v0.0.0-20181120213400-883e6f8adc45 // indirect
+	google.golang.org/grpc v1.16.0 // indirect
 	gopkg.in/urfave/cli.v2 v2.0.0-20180128182452-d3ae77c26ac8 // indirect
-	gopkg.in/yaml.v2 v2.2.1 // indirect
 
 )
