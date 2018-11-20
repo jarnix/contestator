@@ -5,6 +5,6 @@ main.exe
 test.exe
 .gitsecret/keys/random_seed
 
-# exclude everything but /data folder
+# exclude everything but /data sub folders
 /data/*
-!/data/.gitkeep
+!/data/*/.gitkeep

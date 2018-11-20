@@ -15,17 +15,17 @@ import (
 )
 
 // GenerateText returns a text generated from a folder with text files
-func GenerateText(folder string, nbPrefix int, nbRuns int, nbWordsPerRun int) string {
+func GenerateText(nbPrefix int, nbRuns int, nbWordsPerRun int) string {
 	startOnCapital := true
 	stopAtSentence := true
 
 	rand.Seed(time.Now().UnixNano())
 
-	// contains all the folders to parse
+	// contains all the files to parse
 	var allTextFilesInsideRoot []string
 
 	// recursively read the folder and concatenate the .txt files
-	err := filepath.Walk(folder,
+	err := filepath.Walk(DataFolder,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err

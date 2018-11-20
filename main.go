@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/jarnix/contestator/contest"
 	"github.com/jarnix/contestator/emoji"
 	"github.com/jarnix/contestator/markov"
 	"github.com/jarnix/contestator/retweet"
@@ -62,20 +63,17 @@ func main() {
 	case "downloadforretweet":
 		retweet.DownloadForRetweet(1)
 	case "tweetretweet":
-		// randomtweetID := retweet.GetRandomTweet()
-		// twitterClient.Retweet(tweetID)
+		randomtweetID := retweet.GetRandomTweet()
+		twitterClient.Retweet(randomtweetID)
 	case "tweetmarkov":
-		stupidText := markov.GenerateText(markov.DataFolder, 2, 1, 10)
+		stupidText := markov.GenerateText(2, 1, 10)
 		twitterClient.TweetSomething(stupidText)
 	case "tweetemojis":
 		stupidText := emoji.GenerateText()
 		twitterClient.TweetSomething(stupidText)
+	case "contestplay":
+		contest.GetContestTweets(&twitterClient)
 	case "":
 		flag.PrintDefaults()
 	}
-
-	/*
-		twitterClient.SearchTweets("#concours")
-	*/
-
 }

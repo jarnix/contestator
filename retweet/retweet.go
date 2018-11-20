@@ -1,11 +1,14 @@
 package retweet
 
 import (
+	"bufio"
 	"crypto/md5"
 	"encoding/hex"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -92,4 +95,42 @@ func DownloadForRetweet(idx int) {
 
 	}
 
+}
+
+// GetRandomTweet gets a random tweet from the index
+func GetRandomTweet() int64 {
+	rand.Seed(time.Now().UnixNano())
+
+	// contains all the files to parse
+	var allTextFilesInsideRoot []string
+
+	// recursively read the folder
+	err := filepath.Walk(DataFolder,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if strings.HasSuffix(path, ".txt") {
+				allTextFilesInsideRoot = append(allTextFilesInsideRoot, path)
+			}
+			return nil
+		})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	randomFileNumber := rand.Intn(len(allTextFilesInsideRoot) - 1)
+
+	file, _ := os.Open(allTextFilesInsideRoot[randomFileNumber])
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	randomTweetID, _ := strconv.ParseInt(lines[rand.Intn(len(lines)-1)], 10, 64)
+
+	return randomTweetID
 }
