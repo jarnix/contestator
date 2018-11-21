@@ -23,7 +23,7 @@ type Tweet struct {
 	RetweetCount int
 }
 
-// GetApi returns the private api of our client
+// GetAPI returns the private api of our client
 func (client Client) GetAPI() *anaconda.TwitterApi {
 	return client.api
 }
@@ -31,22 +31,25 @@ func (client Client) GetAPI() *anaconda.TwitterApi {
 // NewClient returns a Twitter api client
 func NewClient(accessToken string, accessSecret string, apiKey string, apiSecret string) Client {
 	api := anaconda.NewTwitterApiWithCredentials(accessToken, accessSecret, apiKey, apiSecret)
-	api.EnableThrottling(10*time.Second, 60)
-	api.SetDelay(5 * time.Second)
+	api.EnableThrottling(60*time.Second, 60)
+	api.SetDelay(60 * time.Second)
 	var client = Client{api: api}
 	return client
 }
 
 // SearchTweets search tweets containing a string
-func (client Client) SearchTweets(searchQuery string) []Tweet {
+func (client Client) SearchTweets(searchQuery string, v url.Values) []Tweet {
 
-	v := url.Values{}
-	v.Set("count", "50")
-	v.Set("result_type", "popular")
+	if v == nil {
+		v = url.Values{}
+		v.Set("count", "50")
+		v.Set("result_type", "popular")
+	}
 
 	var resultingTweets []Tweet
 
 	searchResult, _ := client.api.GetSearch(searchQuery, v)
+
 	for _, tweet := range searchResult.Statuses {
 		createdAtTime, _ := tweet.CreatedAtTime()
 		resultingTweets = append(resultingTweets, Tweet{

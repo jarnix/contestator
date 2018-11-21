@@ -77,7 +77,7 @@ func DownloadForMarkov(idx int) {
 				log.Println(link.Href + " was already downloaded")
 			}
 
-			time.Sleep(500 * time.Millisecond)
+			time.Sleep(5 * time.Second)
 
 		}
 

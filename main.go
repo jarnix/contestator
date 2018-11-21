@@ -3,6 +3,7 @@ package main
 import (
 	_ "database/sql"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 
@@ -18,18 +19,17 @@ import (
 
 // aller chercher 4 tweets via search avec #concours, rt, retweet, follow (...)
 // voir dans le tweet les comptes à suivre, s'il y a des indications particulières
-// stocker les comptes followés dans la base pour les défollower 1 mois après
 // attendre au moins 2/3 heures entre chaque lancement et 1/2 minutes entre chaque action
 // les faire en journée uniquement (à heure régulière)
 
 // anti anti bot
 
 // ## poster des status à la con via markov préfixés par "#gamingsousLSD"
+// ## tweeter des emojis en messages codés avec des emojis aléatoires
+// ## retweeter des conneries depuis ce site http://twog.fr/
 // traduire /r/showerthoughts via google translate api
 // retweeter des comptes auxquels je suis abonné
 // retweeter des célébrités du milieu
-// ## tweeter des emojis en messages codés avec des emojis aléatoires
-// retweeter des conneries depuis ce site http://twog.fr/
 
 func main() {
 
@@ -54,6 +54,10 @@ func main() {
 
 	twitterClient := twitter.NewClient(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
 
+	b := []string{"users", "search", "statuses"}
+	rateLimits, _ := twitterClient.GetAPI().GetRateLimits(b)
+	fmt.Println(rateLimits)
+
 	todo := flag.String("todo", "", "action to launch (downloadforindex, ...)")
 	flag.Parse()
 	log.SetPrefix(*todo + " ")
@@ -63,8 +67,7 @@ func main() {
 	case "downloadforretweet":
 		retweet.DownloadForRetweet(1)
 	case "tweetretweet":
-		randomtweetID := retweet.GetRandomTweet()
-		twitterClient.Retweet(randomtweetID)
+		retweet.PostRandomRetweet(&twitterClient)
 	case "tweetmarkov":
 		stupidText := markov.GenerateText(2, 1, 10)
 		twitterClient.TweetSomething(stupidText)

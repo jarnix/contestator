@@ -15,6 +15,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/jarnix/contestator/twitter"
 	"github.com/jarnix/contestator/webreader"
 )
 
@@ -97,8 +98,8 @@ func DownloadForRetweet(idx int) {
 
 }
 
-// GetRandomTweet gets a random tweet from the index
-func GetRandomTweet() int64 {
+// PostRandomRetweet gets a random tweet from the index
+func PostRandomRetweet(twitterClient *twitter.Client) {
 	rand.Seed(time.Now().UnixNano())
 
 	// contains all the files to parse
@@ -132,5 +133,9 @@ func GetRandomTweet() int64 {
 
 	randomTweetID, _ := strconv.ParseInt(lines[rand.Intn(len(lines)-1)], 10, 64)
 
-	return randomTweetID
+	_, err = twitterClient.GetAPI().Retweet(randomTweetID, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
