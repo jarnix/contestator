@@ -19,7 +19,7 @@ const DataFolder = "data/contest"
 const filesToKeep = 300
 
 // GetContestTweets returns the latest tweets containing interesting words
-func GetContestTweets(twitterClient *twitter.Client) {
+func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 	rand.Seed(time.Now().UnixNano())
 
 	queries := strings.Split(os.Getenv("CONTEST_PLAY_QUERIES"), ",")
@@ -31,8 +31,7 @@ func GetContestTweets(twitterClient *twitter.Client) {
 		v := url.Values{}
 		v.Set("lang", os.Getenv("CONTEST_LANG"))
 		v.Set("count", "100")
-		// v.Set("result_type", "popular")
-		v.Set("result_type", "latest")
+		v.Set("result_type", resultType)
 
 		tweets := twitterClient.SearchTweets(query, v)
 
@@ -40,6 +39,8 @@ func GetContestTweets(twitterClient *twitter.Client) {
 		log.Println("results", len(tweets))
 
 		for _, tweet := range tweets {
+
+			fmt.Println(strings.Repeat("*", 80))
 
 			// ignore all the tweets with 0 retweets that are probably false positive
 			if tweet.RetweetCount > 0 {
@@ -78,7 +79,7 @@ func GetContestTweets(twitterClient *twitter.Client) {
 						}
 					}
 
-					time.Sleep(10 * time.Second)
+					time.Sleep(5 * time.Second)
 
 					// retweet
 					_, err = twitterClient.GetAPI().Retweet(tweet.ID, true)
@@ -86,7 +87,7 @@ func GetContestTweets(twitterClient *twitter.Client) {
 						log.Println(err)
 					}
 
-					time.Sleep(10 * time.Second)
+					time.Sleep(5 * time.Second)
 
 					var hashtagsToAdd = make(map[string]bool)
 					var regexHashtags = regexp.MustCompile(`(?m)#(\w{1,15})`)
@@ -101,7 +102,7 @@ func GetContestTweets(twitterClient *twitter.Client) {
 						hashtagString += " #" + string(hashtag)
 					}
 
-					time.Sleep(10 * time.Second)
+					time.Sleep(5 * time.Second)
 
 					// mention a friend in the reply
 					// with all the hashtags from the tweet

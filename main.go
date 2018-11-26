@@ -75,7 +75,8 @@ func main() {
 		stupidText := emoji.GenerateText()
 		twitterClient.TweetSomething(stupidText)
 	case "contestplay":
-		contest.GetContestTweets(&twitterClient)
+		contest.GetContestTweets(&twitterClient, "popular")
+		contest.GetContestTweets(&twitterClient, "latest")
 	case "":
 		flag.PrintDefaults()
 	}

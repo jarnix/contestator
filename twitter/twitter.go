@@ -52,13 +52,25 @@ func (client Client) SearchTweets(searchQuery string, v url.Values) []Tweet {
 
 	for _, tweet := range searchResult.Statuses {
 		createdAtTime, _ := tweet.CreatedAtTime()
-		resultingTweets = append(resultingTweets, Tweet{
+		appendedTweet := Tweet{
 			ID:           tweet.Id,
 			TimeCreated:  createdAtTime,
 			FullText:     tweet.FullText,
 			User:         tweet.User,
 			RetweetCount: tweet.RetweetCount,
-		})
+		}
+		// if it's a retweet, we return the original tweet and not the retweet
+		if tweet.RetweetedStatus != nil {
+			retweetedTweet := *tweet.RetweetedStatus
+			appendedTweet.ID = retweetedTweet.Id
+			createdAtTime, _ := retweetedTweet.CreatedAtTime()
+			appendedTweet.TimeCreated = createdAtTime
+			appendedTweet.FullText = retweetedTweet.FullText
+			appendedTweet.User = retweetedTweet.User
+			appendedTweet.RetweetCount = tweet.RetweetCount
+		}
+
+		resultingTweets = append(resultingTweets, appendedTweet)
 	}
 	return resultingTweets
 }
