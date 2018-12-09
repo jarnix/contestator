@@ -9,8 +9,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"time"
 
+	"github.com/jarnix/contestator/twitter"
 	"github.com/jarnix/contestator/webreader"
 )
 
@@ -77,7 +77,7 @@ func DownloadForMarkov(idx int) {
 				log.Println(link.Href + " was already downloaded")
 			}
 
-			time.Sleep(5 * time.Second)
+			twitter.RandomSleep()
 
 		}
 

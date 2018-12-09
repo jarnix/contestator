@@ -3,11 +3,15 @@ package twitter
 import (
 	"errors"
 	"log"
+	"math/rand"
 	"net/url"
 	"time"
 
 	"github.com/ChimeraCoder/anaconda"
 )
+
+const minSleep = 60
+const maxSleep = 900
 
 // Client is our wrapper for anaconda TwitterApi
 type Client struct {
@@ -31,10 +35,18 @@ func (client Client) GetAPI() *anaconda.TwitterApi {
 // NewClient returns a Twitter api client
 func NewClient(accessToken string, accessSecret string, apiKey string, apiSecret string) Client {
 	api := anaconda.NewTwitterApiWithCredentials(accessToken, accessSecret, apiKey, apiSecret)
-	api.EnableThrottling(60*time.Second, 60)
-	api.SetDelay(60 * time.Second)
+	api.EnableThrottling(600*time.Second, 600)
+	api.SetDelay(600 * time.Second)
 	var client = Client{api: api}
 	return client
+}
+
+// RandomSleep sleeps for a random time
+func RandomSleep() {
+	rand.Seed(time.Now().UnixNano())
+	randomTime := rand.Intn(maxSleep-minSleep) + minSleep
+	log.Println("Sleeping for", randomTime, "seconds")
+	time.Sleep(time.Duration(randomTime) * time.Second)
 }
 
 // SearchTweets search tweets containing a string

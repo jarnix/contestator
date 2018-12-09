@@ -1,7 +1,7 @@
 module github.com/jarnix/contestator
 
 require (
-	cloud.google.com/go v0.33.1 // indirect
+	cloud.google.com/go v0.34.0
 	github.com/ChimeraCoder/anaconda v2.0.0+incompatible
 	github.com/ChimeraCoder/tokenbucket v0.0.0-20131201223612-c5a927568de7 // indirect
 	github.com/PuerkitoBio/goquery v1.5.0

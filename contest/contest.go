@@ -74,12 +74,11 @@ func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 					for userToFollow := range usersToFollow {
 						log.Println("followed: ", userToFollow)
 						_, err = twitterClient.GetAPI().FollowUser(userToFollow)
+						twitter.RandomSleep()
 						if err != nil {
 							log.Println(err)
 						}
 					}
-
-					time.Sleep(5 * time.Second)
 
 					// retweet
 					_, err = twitterClient.GetAPI().Retweet(tweet.ID, true)
@@ -87,7 +86,7 @@ func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 						log.Println(err)
 					}
 
-					time.Sleep(5 * time.Second)
+					twitter.RandomSleep()
 
 					var hashtagsToAdd = make(map[string]bool)
 					var regexHashtags = regexp.MustCompile(`(?m)#(\w{1,15})`)
@@ -102,7 +101,7 @@ func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 						hashtagString += " #" + string(hashtag)
 					}
 
-					time.Sleep(5 * time.Second)
+					twitter.RandomSleep()
 
 					// mention a friend in the reply
 					// with all the hashtags from the tweet
@@ -122,7 +121,7 @@ func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 						log.Fatal(err2)
 					}
 
-					time.Sleep(5 * time.Second)
+					twitter.RandomSleep()
 
 				} else {
 					log.Println("this tweet was already downloaded")
