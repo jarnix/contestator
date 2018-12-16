@@ -30,7 +30,7 @@ func DownloadForRetweet(idx int) {
 	// get the number of files for this idx and keep only the most toKeep recent ones
 	files, err := ioutil.ReadDir(DataFolder + "/" + strconv.Itoa(idx))
 	if err != nil {
-		log.Fatal("cannot read data folder")
+		os.MkdirAll(DataFolder+"/"+strconv.Itoa(idx), os.ModePerm)
 	}
 	sort.Slice(files, func(i, j int) bool {
 		return files[i].ModTime().Unix() < files[j].ModTime().Unix()

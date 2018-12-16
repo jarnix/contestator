@@ -7,5 +7,6 @@ test.exe
 
 # exclude everything but /data sub folders
 /data/*/*.txt
+/data/*
 !/data/.gitkeep
 !/data/*/.gitkeep

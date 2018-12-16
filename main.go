@@ -49,12 +49,12 @@ func main() {
 	flag.Parse()
 	log.SetPrefix(*todo + " ")
 	switch *todo {
-	case "downloadforindex":
-		markov.DownloadForMarkov(1)
 	case "downloadforretweet":
 		retweet.DownloadForRetweet(1)
 	case "tweetretweet":
 		retweet.PostRandomRetweet(&twitterClient)
+	case "downloadformarkov":
+		markov.DownloadForMarkov(1)
 	case "tweetmarkov":
 		stupidText := markov.GenerateText(2, 1, 10)
 		twitterClient.TweetSomething(stupidText)

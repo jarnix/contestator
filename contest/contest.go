@@ -2,6 +2,7 @@ package contest
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/url"
@@ -27,6 +28,12 @@ func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 	if time.Now().Hour() < hourBegin || time.Now().Hour() >= hourEnd {
 		log.Println("It's too early or too late, let me sleep again")
 		return
+	}
+
+	// create the folder for storing old tweets
+	_, err := ioutil.ReadDir(DataFolder)
+	if err != nil {
+		os.MkdirAll(DataFolder, os.ModePerm)
 	}
 
 	queries := strings.Split(os.Getenv("CONTEST_PLAY_QUERIES"), ",")
