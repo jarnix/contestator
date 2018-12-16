@@ -43,12 +43,12 @@ go get github.com/oxequa/realize
 
 ### /etc/cron.d/contestator
 ```
-5 5 * * *   www-data /var/www/contestator/contestator --todo downloadforindex	 >> /var/www/logs/contestator.log 2>&1
+5 5 * * *   www-data /var/www/contestator/contestator --todo downloadformarkov	 >> /var/www/logs/contestator.log 2>&1
 10 6 * * *  www-data /var/www/contestator/contestator --todo downloadforretweet  >> /var/www/logs/contestator.log 2>&1
-10 6 * * *  www-data /var/www/contestator/contestator --todo tweetretweet 		 >> /var/www/logs/contestator.log 2>&1
-0 9 * * *   www-data /var/www/contestator/contestator --todo tweetmarkov 		 >> /var/www/logs/contestator.log 2>&1
-30 13 * * * www-data /var/www/contestator/contestator --todo tweetemojis 		 >> /var/www/logs/contestator.log 2>&1
-0 10 * * *  www-data /var/www/contestator/contestator --todo contestplay 		 >> /var/www/logs/contestator.log 2>&1
+10 6 * * *  www-data /var/www/contestator/contestator --todo tweetretweet        >> /var/www/logs/contestator.log 2>&1
+0 9 * * *   www-data /var/www/contestator/contestator --todo tweetmarkov         >> /var/www/logs/contestator.log 2>&1
+30 13 * * * www-data /var/www/contestator/contestator --todo tweetemojis         >> /var/www/logs/contestator.log 2>&1
+0 10 * * *  www-data /var/www/contestator/contestator --todo contestplay         >> /var/www/logs/contestator.log 2>&1
 ```
 
 
