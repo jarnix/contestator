@@ -17,10 +17,17 @@ import (
 // DataFolder is where already parsed tweets are stored
 const DataFolder = "data/contest"
 const filesToKeep = 300
+const hourBegin = 9
+const hourEnd = 18
 
 // GetContestTweets returns the latest tweets containing interesting words
 func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 	rand.Seed(time.Now().UnixNano())
+
+	if time.Now().Hour() < hourBegin || time.Now().Hour() >= hourEnd {
+		log.Println("It's too early or too late, let me sleep again")
+		return
+	}
 
 	queries := strings.Split(os.Getenv("CONTEST_PLAY_QUERIES"), ",")
 
@@ -127,6 +134,11 @@ func GetContestTweets(twitterClient *twitter.Client, resultType string) {
 					log.Println("this tweet was already downloaded")
 				}
 
+			}
+
+			if time.Now().Hour() >= hourEnd {
+				log.Println("Let's call it a day")
+				return
 			}
 		}
 

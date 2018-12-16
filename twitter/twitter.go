@@ -35,8 +35,8 @@ func (client Client) GetAPI() *anaconda.TwitterApi {
 // NewClient returns a Twitter api client
 func NewClient(accessToken string, accessSecret string, apiKey string, apiSecret string) Client {
 	api := anaconda.NewTwitterApiWithCredentials(accessToken, accessSecret, apiKey, apiSecret)
-	api.EnableThrottling(600*time.Second, 600)
-	api.SetDelay(600 * time.Second)
+	// api.EnableThrottling(600*time.Second, 10)
+	// api.SetDelay(10 * time.Second)
 	var client = Client{api: api}
 	return client
 }
@@ -89,6 +89,7 @@ func (client Client) SearchTweets(searchQuery string, v url.Values) []Tweet {
 
 // TweetSomething posts a status with options
 func (client Client) TweetSomething(status string) error {
+	RandomSleep()
 	if status == "" {
 		return errors.New("status cannot be empty")
 	}
@@ -101,6 +102,7 @@ func (client Client) TweetSomething(status string) error {
 
 // Retweet retweets a tweet by its id
 func (client Client) Retweet(tweetID int64) error {
+	RandomSleep()
 	_, err := client.api.Retweet(tweetID, true)
 	if err != nil {
 		log.Fatal(err)

@@ -133,6 +133,8 @@ func PostRandomRetweet(twitterClient *twitter.Client) {
 
 	randomTweetID, _ := strconv.ParseInt(lines[rand.Intn(len(lines)-1)], 10, 64)
 
+	twitter.RandomSleep()
+
 	_, err = twitterClient.GetAPI().Retweet(randomTweetID, true)
 	if err != nil {
 		log.Fatal(err)

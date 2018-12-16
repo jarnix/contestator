@@ -3,7 +3,6 @@ package main
 import (
 	_ "database/sql"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 
@@ -38,25 +37,13 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	/*
-		// fetch some websites for tweeting random shit
-		webpageWithLinks := webreader.GetWebPage(os.Getenv("URL_BASE_CRAWL_1"))
-		baseURL := webreader.GetBaseURL(os.Getenv("URL_BASE_CRAWL_1"))
-		links := webreader.GetLinksFromQuery(webpageWithLinks, os.Getenv("URL_QUERY_CRAWL_1"), baseURL)
-		for _, link := range links {
-			webpageArticle := webreader.GetWebPage(link.Href)
-			textFromQuery := webreader.GetTextFromQuery(webpageArticle, os.Getenv("URL_QUERY_TITLE_1"))
-			fmt.Println("title", textFromQuery)
-			contentFromArticle, imageFromArticle := webreader.GetArticleContentAndImage(link.Href, webpageArticle)
-			fmt.Println(contentFromArticle, imageFromArticle)
-		}
-	*/
-
 	twitterClient := twitter.NewClient(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
 
-	b := []string{"users", "search", "statuses"}
-	rateLimits, _ := twitterClient.GetAPI().GetRateLimits(b)
-	fmt.Println(rateLimits)
+	/*
+		b := []string{"users", "search", "statuses"}
+		rateLimits, _ := twitterClient.GetAPI().GetRateLimits(b)
+		fmt.Println(rateLimits)
+	*/
 
 	todo := flag.String("todo", "", "action to launch (downloadforindex, ...)")
 	flag.Parse()
