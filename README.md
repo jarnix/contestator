@@ -12,7 +12,7 @@ Create file called .env that will contain the credentials (not to be commited), 
 # Available actions
 | todo  | action   |
 |---|---|
-| downloadforindex  | Launch the indexing of some articles for generating random shit with markov chains |
+| downloadformarkov  | Launch the indexing of some articles for generating random shit with markov chains |
 | tweetmarkov  | Tweet some markov generated text |
 | downloadforretweet  | Launch the indexing of some tweets for retweeting |
 | tweetretweet  | Retweet the previously downloaded tweets |
