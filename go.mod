@@ -45,7 +45,7 @@ require (
 	golang.org/x/net v0.0.0-20181114220301-adae6a3d119a
 	golang.org/x/oauth2 v0.0.0-20181120190819-8f65e3013eba // indirect
 	golang.org/x/text v0.3.0
-	google.golang.org/api v0.0.0-20181120235003-faade3cbb06a
+	google.golang.org/api v0.0.0-20181217000635-41dc4b66e69d
 	google.golang.org/grpc v1.16.0 // indirect
 	gopkg.in/urfave/cli.v2 v2.0.0-20180128182452-d3ae77c26ac8 // indirect
 

@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/jarnix/contestator/contest"
 	"github.com/jarnix/contestator/emoji"
@@ -32,18 +33,18 @@ import (
 
 func main() {
 
-	err := godotenv.Load()
+	ex, err := os.Executable()
+	if err != nil {
+		panic(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	err = godotenv.Load(exPath + "/.env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
 	twitterClient := twitter.NewClient(os.Getenv("TWITTER_ACCESS_TOKEN"), os.Getenv("TWITTER_ACCESS_TOKEN_SECRET"), os.Getenv("TWITTER_API"), os.Getenv("TWITTER_SECRET"))
-
-	/*
-		b := []string{"users", "search", "statuses"}
-		rateLimits, _ := twitterClient.GetAPI().GetRateLimits(b)
-		fmt.Println(rateLimits)
-	*/
 
 	todo := flag.String("todo", "", "action to launch (downloadforindex, ...)")
 	flag.Parse()
